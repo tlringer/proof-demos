@@ -76,6 +76,8 @@ domain-specific or program-specific automation strategies, more general
 proof strategies (like induction), and a whole lot more. But we can get _way more creative_
 than that.
 
+**Fun Fact**: The first proof of program correctness was written by Alan Turing in the 1940s. He was a cool dude.
+
 # Oh? How Creative?
 
 I recommend [this podcast](https://soundcloud.com/thesis-review/41-talia-ringer-proof-repair) to hear some of my recent ideas, but like, some examples:
@@ -90,6 +92,9 @@ automation as building blocks, which is very cute), as long as in the end we pro
 This is the blessing of de Bruijn. A whole world of automation to explore.
 An oracle to check the end result. **Arbitrary power**, but **no loss of guarantees**.
 This is why I love proof assistants.
+
+**Fun Fact**: Polar bear fur is actually translucent, not white.
+(IDK I'm out of proof facts for now, and I like bears a lot.)
 
 # Some Cool Proof Assistants
 
