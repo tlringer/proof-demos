@@ -70,7 +70,6 @@ in the end, they produce a proof that the kernel can check.
 We can think of this process of going from tactics to something that the kernel can check
 as a kind of compilation from a high-level language of search procedures down to a low-level
 language of _proof objects_ or _proof terms_---kind of the binary of proofs.
-(Everything is a compiler, yadda yadda yadda.)
 
 So what kinds of tactics _do_ people use? Typically things like decision procedures,
 domain-specific or program-specific automation strategies, more general
