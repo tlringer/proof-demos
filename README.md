@@ -19,9 +19,14 @@ want to learn things.
 
 To develop a verified system using a proof assistant, the proof engineer does three things:
 
-1. **programs** in a functional programming language,
+1. **programs** in a functional programming language,[^1]
 2. **specifies** what it means for the program to be correct, and
 3. **proves** that the program satisfies the specification.
+
+[^1]: If you want to write code in an imperative language, there are frameworks you can
+use for that, too. I don't want to get too much into how these are implemented,
+but [Iris](https://iris-project.org/) is a particularly useful framework for reasoning about
+imperative, possibly concurrent programs.
 
 The process of writing this proof is **interactive**: The proof engineer sends strategies
 (called _tactics_) to the proof assistant to solve an outstanding proof obligation, and
