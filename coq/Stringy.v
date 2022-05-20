@@ -1,5 +1,7 @@
 (*
  * It's good to step through this interactively rather than look at it statically.
+ * In any proof IDE, when you step through this interactively, Coq will show you
+ * your assumptions and goals at each step of the proof, which is really helpful.
  * I'm happy to show people this IRL or help you get Coq set up or whatever.
  *
  * This example is based on an example that Sanjay brought up in a conversation.
