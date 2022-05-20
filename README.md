@@ -139,7 +139,7 @@ This would be fun.
 
 # But This Clashes With My Programming Workflow >:(
 
-That's cool. That's why I'm so obsessed with making these easier to use.
+That's cool. That's why **I'm so obsessed with making these easier to use**.
 I think the future will feature a smooth continuum between tests and proofs,
 drawing on all sorts of automation with a nice interface to look _[a hell of lot better](https://twitter.com/TaliaRinger/status/1365433319572185092)_. I'm excited to build
 this future. I just want lots of people to help me out!
