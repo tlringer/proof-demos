@@ -108,7 +108,7 @@ A small sample:
 
 # Some Cool Verified Systems
 
-An even smaller sample:
+An even smaller sample of [vast, vast literature](https://dependenttyp.es/pdf/QEDatLarge.pdf):
 
 - [Bagpipe](http://bagpipe.uwplse.org/bagpipe/) verified BGP configuration checker, lest we try to bring the whole internet down again
 - [CompCert](https://compcert.org/) verified optimizing C compiler, used in airplanes
