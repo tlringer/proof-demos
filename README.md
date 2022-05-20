@@ -1,10 +1,10 @@
-Proof assistants are great. You can use them to prove critical properties
+**Proof assistants are great.** You can use them to prove critical properties
 about large software systems (like the absence of certain costly or dangerous bugs).
 The act of proving critical properties about
 a software system is called _verification_, and the act of engineering large
 verified software systems is called _[proof engineering](https://dependenttyp.es/pdf/QEDatLarge.pdf)_.
 
-I like to work on automation for these proof assistants.
+I like to work on **automation** for these proof assistants.
 The [intro lecture for my class](https://www.youtube.com/watch?v=bzo4FTAmaOM)
 (which is just twenty minutes long) is a good summary of what these proof assistants
 are and how they work, and what automation can do and why I care about it
@@ -19,11 +19,11 @@ want to learn things.
 
 To develop a verified system using a proof assistant, the proof engineer does three things:
 
-1. implements a program using a functional programming language,
-2. specifies what it means for the program to be correct, and
-3. proves that the program satisfies the specification.
+1. **programs** in a functional programming language,
+2. **specifies** what it means for the program to be correct, and
+3. **proves** that the program satisfies the specification.
 
-The process of writing this proof is interactive: The proof engineer sends strategies
+The process of writing this proof is **interactive**: The proof engineer sends strategies
 (called _tactics_) to the proof assistant to solve an outstanding proof obligation, and
 the proof assistant responds with a new proof obligation. This continues until the proof assistant finds a proof that it can check.
 
@@ -42,12 +42,12 @@ between programs and proofs is called the _Curry-Howard Isomorphism_. Boom, baby
 
 OK so what's really, really cool about the process of writing these proofs is that
 these tools have this beautiful separation of concerns between _producing_ the proof
-and _checking_ the proof. The proof checker is a small logical kernel that can be vetted
-by a human---this and the specification that one proves are the _trusted_ parts,
+and _checking_ the proof. The proof checker is a **small logical kernel that can be vetted
+by a human**---this and the specification that one proves are the _trusted_ parts,
 which is why human vetting is important.
 
 What this means is that the rest of the process is _trustworthy_, not just _trusted_.
-Like, we can stick arbitrarily fancy automation on top of the process of producing the proof,
+Like, we can stick **arbitrarily fancy automation** on top of the process of producing the proof,
 as long as we don't touch the kernel, and as long as we vet our specification in the end.
 
 **Fun Fact**: This separation of concerns is called the _de Bruijn criterion_, if you're
@@ -56,7 +56,7 @@ everything else.
 
 # Tell Me More About Automation
 
-_Proof automation_ is my jam, like I teach [a whole class](https://dependenttyp.es/classes/598sp2022.html) on it. Check it out if you're intersted! The schedule of that class is
+**Proof automation** is my jam, like I teach [a whole class](https://dependenttyp.es/classes/598sp2022.html) on it. Check it out if you're intersted! The schedule of that class is
 basically set up to read like a textbook. At the bottom of each page for each reading
 or hacking session, there's a link to the previous session and to the next session.
 This took me hundreds of hours to put together so I do appreciate people reading it
@@ -77,7 +77,9 @@ domain-specific or program-specific automation strategies, more general
 proof strategies (like induction), and a whole lot more. But we can get _way more creative_
 than that.
 
-How creative? I recommend [this podcast](https://soundcloud.com/thesis-review/41-talia-ringer-proof-repair) to hear some of my recent ideas, but like, some examples:
+# Oh? How Creative?
+
+I recommend [this podcast](https://soundcloud.com/thesis-review/41-talia-ringer-proof-repair) to hear some of my recent ideas, but like, some examples:
 A tactic can _take a proof term as input_ and _transform it_ to create another
 proof term, like quite literally a _proof term transformation_ (a program
 transformation, but for proofs). We can use this to do pretty much whatever we could do to programs by transformation: refactor them, repair them, mutate them to find new proofs 
@@ -87,8 +89,7 @@ or have a neural network produce tactics (neural automation working with symboli
 automation as building blocks, which is very cute), as long as in the end we produce a term.
 
 This is the blessing of de Bruijn. A whole world of automation to explore.
-An oracle to check the end result. Arbitrary power, but no loss of guarantees.
-
+An oracle to check the end result. **Arbitrary power**, but **no loss of guarantees**.
 This is why I love proof assistants.
 
 # Some Cool Proof Assistants
@@ -112,7 +113,7 @@ An even smaller sample:
 - [DaisyNFS](https://www.chajed.io/papers/tchajed-thesis.pdf) formally verified
 concurrent file system, extremely performant with strong guarantees
 
-# Can We Verify Machine Learning Systems This Way
+# Can We Verify Machine Learning Systems This Way?
 
 Oh, which part of the systems? I guess "yes but" is kind of my answer here.
 
@@ -137,7 +138,7 @@ and languages this way. Not just possible, but also probably pretty tractable.
 Like we have so much work on verified compilers and languages.
 This would be fun.
 
-# But This Clashes With My Programming Workflow
+# But This Clashes With My Programming Workflow >:(
 
 That's cool. That's why I'm so obsessed with making these easier to use.
 I think the future will feature a smooth continuum between tests and proofs,
