@@ -108,13 +108,13 @@ A small sample:
 
 # Some Cool Verified Systems
 
-An even smaller sample of [vast, vast literature](https://dependenttyp.es/pdf/QEDatLarge.pdf):
+An even smaller sample of the [vast, vast literature](https://dependenttyp.es/pdf/QEDatLarge.pdf):
 
 - [Bagpipe](http://bagpipe.uwplse.org/bagpipe/) verified BGP configuration checker, lest we try to bring the whole internet down again
 - [CompCert](https://compcert.org/) verified optimizing C compiler, used in airplanes
 - [Fiat Crypto](http://adam.chlipala.net/papers/FiatCryptoSP19/FiatCryptoSP19.pdf) verified cryptographic code, used in BoringSSL which is in Chrome and Android
 - [seL4](https://sel4.systems/) verified operating system microkernel, used to make an autonomous helicopter resilient to hacking
-- [DaisyNFS](https://www.chajed.io/papers/tchajed-thesis.pdf) formally verified
+- [DaisyNFS](https://www.chajed.io/papers/tchajed-thesis.pdf) verified
 concurrent file system, extremely performant with strong guarantees
 
 # Can We Verify Machine Learning Systems This Way?
