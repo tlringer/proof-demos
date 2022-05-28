@@ -3,7 +3,7 @@
  * a crash course that's just hard enough to be interesting.
  *
  * I'm leaving out answers for now because I want to try having Jeff (hi) work
- * through this with me. But I'll probably post them in another file at some point.
+ * through this. But I'll probably post them in another file at some point.
  *
  * This is based on a class exercise I did for my proof automation class.
  *)
@@ -155,7 +155,7 @@ Fixpoint rev {A : Type} (l : list A) :=
  * helper lemmas about append. It's often best, though, to start the proof, see where
  * you get stuck, and then use that to figure out the ideal helper lemma---much like many
  * programmers would do to find the right helper function. (For Jeff only: I should talk about
- * something internal here.)
+ * something particular here I hope I'll remember when I see this.)
  *
  * EXERCISE: Prove that the reverse function preserves the length of the input list.
  *)
