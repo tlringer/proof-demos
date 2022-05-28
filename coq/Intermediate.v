@@ -3,7 +3,7 @@
  * a crash course that's just hard enough to be interesting.
  *
  * I'm leaving out answers for now because I want to try having Jeff (hi) work
- * through this. But I'll probably post them in another file at some point.
+ * through this with me. But I'll probably post them in another file at some point.
  *
  * This is based on a class exercise I did for my proof automation class.
  *)
