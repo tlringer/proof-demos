@@ -1,8 +1,10 @@
 (*
  * It's good to step through this interactively rather than look at it statically.
+ * In any proof IDE, when you step through this interactively, Coq will show you
+ * your assumptions and goals at each step of the proof, which is really helpful.
  * I'm happy to show people this IRL or help you get Coq set up or whatever.
  *
- * This example is based on an example that Sanjay brought up in a conversation.
+ * This example is based on an example that Sanjay brought up.
  * It mostly demonstrates the notion of what I would call a "unit proof"---kind of
  * like a unit test in that it proves properties of a small and reusable function
  * probably used lots of places in larger code.
@@ -123,11 +125,4 @@ Eval compute in (length (threpeat "Hi")). (* 6 : nat *)
  *
  * This is just a taste, but hopefully it's a fun and interesting one to start.
  *)
-
-
-
-
-
-
-
 
