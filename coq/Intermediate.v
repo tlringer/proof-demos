@@ -169,6 +169,13 @@ Proof.
   (* your proof here *)
 Admitted. (* <- change to Qed when done *)
 
+(*
+ * EXERCISE: Uncomment the line below to print the proof term that the tactic proof
+ * of rev_pres_length produces. How easy it to tell what is going on? If you have time,
+ * consider tweaking some tactics to see how the proof term changes.
+ *)
+(*Print rev_pres_length.*)
+
 (* 
  * EXERCISE: What else might you want to prove about the list reverse function?
  * Think about things you'd test---then try to generalize them to the infinite.
