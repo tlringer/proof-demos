@@ -41,10 +41,10 @@ Print list.
 (*
  * Some example lists, using nice syntax Coq has defined for us:
  *)
-Definition empty_nat : list nat := [].
-Definition empty_char : list ascii := [].
-Definition one_two_three_four : list nat := [1; 2; 3; 4].
-Definition x_y_z : list ascii := ["x"; "y"; "z"].
+Definition empty_nat : list nat := []. (* syntax for nil nat *)
+Definition empty_char : list ascii := []. (* syntax for nil ascii *)
+Definition one_two_three_four : list nat := [1; 2; 3; 4]. (* syntax for (cons 4 ...) *)
+Definition x_y_z : list ascii := ["x"; "y"; "z"]. (* syntax for (cons "x" ...) *)
 
 (* --- Functions and recursion --- *)
 
