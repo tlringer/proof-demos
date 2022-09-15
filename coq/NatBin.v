@@ -101,7 +101,7 @@ Eval compute in (f (S (S (S (S (S (S O))))))).
  * We can also go back in the opposite direction.
  * The easiest way is to play a similar game.
  * We define what "shift to the left and add zero"
- * and "shift to the left and add one" correpsond to in unary.
+ * and "shift to the left and add one" correspond to in unary.
  * The function falls out of that by pattern matching and
  * recursion.
  *
