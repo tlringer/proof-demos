@@ -1,4 +1,4 @@
-Require Import NatBin.
+Require Import NatBin List.
 
 (*
  * This is another Shizhuo tutorial, building on NatBin.v.
@@ -7,6 +7,8 @@ Require Import NatBin.
  *)
 
 (* --- Equivalence 1: Unary and Ternary --- *)
+
+Module One.
 
 (*
  * This will be a lot like our unary and binary examples,
@@ -199,4 +201,44 @@ Proof.
   + unfold g. replace (g_pos (x2 t')) with (x2_nat (g_pos t')) by reflexivity.
     rewrite x2_OK. rewrite IHt'. reflexivity.
 Qed.
+
+End One.
+
+(* --- Equivalence 2: bin_tree / rose_tree --- *)
+
+(*
+ * See: https://twitter.com/PTOOP/status/1575238476861153280
+ *)
+Inductive bin_tree {T : Type} : Type :=
+| leaf : bin_tree
+| node : T -> bin_tree -> bin_tree -> bin_tree.
+
+Inductive rose_tree {T : Type} : Type :=
+| rose : T -> list rose_tree -> rose_tree.
+
+Fixpoint binRoseHelp {T : Type} (b : @bin_tree T) : ((T -> @rose_tree T) * (list (@rose_tree T))) :=
+  match b with
+  | leaf => ((fun t => rose t nil), nil)
+  | node t' l r =>
+      let f := fst (binRoseHelp l) in
+      let spine := snd (binRoseHelp r) in
+      (fun t => rose t (cons (f t') spine), cons (f t') spine)
+  end.
+
+Definition binRose {T : Type} (p : T * @bin_tree T) : @rose_tree T :=
+  fst (binRoseHelp (snd p)) (fst p).
+
+(*
+ * TODO remove mutual recursion and finish opposite direction for:
+
+roseBin :: Rose a -> (a, Bin a)
+roseBin (Rose a ts) = (a, enips ts)
+
+enips :: [Rose a] -> Bin a
+enips [] = Leaf
+enips (r : rs) = let (a, l) = roseBin r in Node a l (enips rs)
+
+TODO then write section/retraction proofs, which will suck
+
+ *)
 
