@@ -1,12 +1,17 @@
 Require Import NatBin List.
 
 (*
- * This is another Shizhuo tutorial, building on NatBin.v.
- * This time we look at some other changes in shape like
- * the unary/binary example that form equivalences.
+ * This is another Dylan tutorial, building on NatBin.v.
+ * This time we look at some other equivalences like
+ * the unary/binary example.
  *)
 
 (* --- Equivalence 1: Unary and Ternary --- *)
+
+(*
+ * This is another change in shape (recursive structure), much like
+ * the unary/binary example.
+ *)
 
 Module One.
 
@@ -208,7 +213,10 @@ End One.
 
 (*
  * See: https://twitter.com/PTOOP/status/1575238476861153280
+ * This is another change in shape as well. I have not finished
+ * proving the equivalence yet.
  *)
+
 Inductive bin_tree {T : Type} : Type :=
 | leaf : bin_tree
 | node : T -> bin_tree -> bin_tree -> bin_tree.
@@ -241,4 +249,61 @@ enips (r : rs) = let (a, l) = roseBin r in Node a l (enips rs)
 TODO then write section/retraction proofs, which will suck
 
  *)
+
+(* --- Equivalence 3: --- *)
+
+Module three.
+
+(*
+ * From https://github.com/uwplse/pumpkin-pi/blob/master/plugin/coq/playground/constr_refactor.v.
+ * This is an equivalence without any recursion at all.
+ * What is interesting here is that it is fully classified by the 
+ * only two possible examples of constructors. So when learning to
+ * synthesize and prove the functions that actually make up
+ * equivalences, a tool that cannot learn this is in a bad place.
+ *)
+
+Inductive I :=
+| A : I
+| B : I.
+
+Inductive bool : Set :=
+| true : bool
+| false : bool.
+
+Inductive J :=
+| makeJ : bool -> J.
+
+(* the examples that fully classify the equivalence: *)
+Definition trues := (A, makeJ true).
+Definition falses := (B, makeJ false).
+
+(* the equivalence: *)
+Definition f (i : I) : J :=
+  match i with
+  | A => makeJ true
+  | B => makeJ false
+  end.
+
+Definition g (j : J) : I :=
+  match j with
+  | makeJ true => A
+  | makeJ false => B
+  end.
+
+Theorem section:
+  forall (i : I), g (f i) = i.
+Proof.
+  intros i. induction i; reflexivity.
+Qed.
+
+Theorem retraction:
+  forall (j : J), f (g j) = j.
+Proof.
+  intros j. induction j. induction b; reflexivity.
+Qed.
+
+End three.
+
+
 
