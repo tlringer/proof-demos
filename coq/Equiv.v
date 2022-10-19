@@ -237,20 +237,26 @@ Definition binRose {T : Type} (p : T * @bin_tree T) : @rose_tree T :=
   fst (binRoseHelp (snd p)) (fst p).
 
 (*
- * TODO remove mutual recursion and finish opposite direction for:
-
-roseBin :: Rose a -> (a, Bin a)
-roseBin (Rose a ts) = (a, enips ts)
-
-enips :: [Rose a] -> Bin a
-enips [] = Leaf
-enips (r : rs) = let (a, l) = roseBin r in Node a l (enips rs)
-
+ * TODO make this not mutually recursive (too hard for now):
+Fixpoint roseBin {T : Type} (r : @rose_tree T) : T * @bin_tree T :=
+  match r with
+  | rose t l => (t, enips l)
+  end
+with enips {T : Type} (l : list (@rose_tree T)) : @bin_tree T :=
+  match l with
+  | nil => leaf 
+  | cons r rs =>
+      let t := fst (roseBin r) in
+      let b := snd (roseBin r) in
+      node t b (enips rs)
+  end.
+*)
+(*
 TODO then write section/retraction proofs, which will suck
 
  *)
 
-(* --- Equivalence 3: --- *)
+(* --- Equivalence 3: No recursion --- *)
 
 Module three.
 
@@ -305,5 +311,61 @@ Qed.
 
 End three.
 
+(* --- Equivalence 4: Variations on a theme --- *)
 
+Module four.
 
+(*
+ * This is a modification of the previous equivalence, but with some changes to
+ * make it recursive. This should still be fairly syntactic, since there's not
+ * a change in inductive structure. But it's slightly more interesting than the
+ * previous example.
+ *)
+
+Inductive I : Set :=
+| A : I
+| B : I -> I.
+
+Inductive J :=
+| makeJ : nat -> J.
+
+(* Examples: *)
+Definition zeros := (A, makeJ O).
+Definition ones := (B A, makeJ (S O)).
+Definition twos := (B (B A), makeJ (S (S O))).
+
+(* the equivalence: *)
+Fixpoint f (i : I) : J :=
+  match i with
+  | A => makeJ O
+  | B i' =>
+     match f i' with
+     | makeJ n => makeJ (S n)
+     end
+  end.
+
+Program Definition g (j : J) : I.
+Proof.
+  induction j. induction n.
+  - apply A.
+  - apply B. apply IHn.
+Defined.
+
+Theorem section:
+  forall (i : I), g (f i) = i.
+Proof.
+  intros i. induction i.
+  - reflexivity.
+  - simpl. destruct (f i). simpl. simpl in IHi.
+    rewrite IHi. reflexivity.
+Qed.
+
+Theorem retraction:
+  forall (j : J), f (g j) = j.
+Proof.
+  intros j. induction j. induction n.
+  - reflexivity.
+  - simpl. simpl in IHn. rewrite IHn. reflexivity.
+Qed.
+
+End four.
