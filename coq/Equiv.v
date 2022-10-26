@@ -214,43 +214,50 @@ End One.
 (*
  * See: https://twitter.com/PTOOP/status/1575238476861153280
  * This is another change in shape as well. I have not finished
- * proving the equivalence yet.
+ * proving the equivalence yet. I'm also removing the type parameter
+ * T because it complicates things a lot.
  *)
 
-Inductive bin_tree {T : Type} : Type :=
+Inductive bin_tree : Type :=
 | leaf : bin_tree
-| node : T -> bin_tree -> bin_tree -> bin_tree.
+| node : bin_tree -> bin_tree -> bin_tree.
 
-Inductive rose_tree {T : Type} : Type :=
-| rose : T -> list rose_tree -> rose_tree.
+Inductive rose_tree : Type :=
+| rose : list rose_tree -> rose_tree.
 
-Fixpoint binRoseHelp {T : Type} (b : @bin_tree T) : ((T -> @rose_tree T) * (list (@rose_tree T))) :=
+Fixpoint binRose (b : bin_tree) : rose_tree :=
   match b with
-  | leaf => ((fun t => rose t nil), nil)
-  | node t' l r =>
-      let f := fst (binRoseHelp l) in
-      let spine := snd (binRoseHelp r) in
-      (fun t => rose t (cons (f t') spine), cons (f t') spine)
+  | leaf => rose nil
+  | node l r =>
+      match binRose r with
+      | rose rs => rose (cons (binRose l) rs)
+      end
   end.
 
-Definition binRose {T : Type} (p : T * @bin_tree T) : @rose_tree T :=
-  fst (binRoseHelp (snd p)) (fst p).
+Eval compute in (binRose leaf). (* rose nil *)
+Eval compute in (binRose (node leaf leaf)). (* rose (rose nil :: nil) *)
+Eval compute in (binRose (node (node leaf leaf) leaf)). (* rose (rose (rose nil :: nil) :: nil) *)
+Eval compute in (binRose (node leaf (node leaf leaf))). (* rose (rose nil :: rose nil :: nil) *)
+
 
 (*
- * TODO make this not mutually recursive (too hard for now):
-Fixpoint roseBin {T : Type} (r : @rose_tree T) : T * @bin_tree T :=
+TODO can't define these ...
+
+Fixpoint enips (l : list rose_tree) : bin_tree :=
+  match l2 with
+  | nil => leaf
+  | cons h tl =>
+    match h with
+    | rose rs => node (enips rs) (enips tl)
+    end
+  end.
+
+Definition roseBin (r : rose_tree) : bin_tree :=
   match r with
-  | rose t l => (t, enips l)
-  end
-with enips {T : Type} (l : list (@rose_tree T)) : @bin_tree T :=
-  match l with
-  | nil => leaf 
-  | cons r rs =>
-      let t := fst (roseBin r) in
-      let b := snd (roseBin r) in
-      node t b (enips rs)
+  | rose rs => enips rs
   end.
 *)
+
 (*
 TODO then write section/retraction proofs, which will suck
 
