@@ -218,6 +218,8 @@ Module two.
  * This is another change in shape as well. I have not finished
  * proving the equivalence yet. I'm also removing the type parameter
  * T because it complicates things a lot.
+ *
+ * TODO the current function here is incorrect! Unsure which one.
  *)
 
 Inductive bin_tree : Type :=
@@ -265,6 +267,7 @@ Definition roseBin (r: rose_tree) : bin_tree :=
        l
   end.
 
+(* TODO currently false *)
 Theorem section :
   forall (b : bin_tree),
     roseBin (binRose b) = b.
