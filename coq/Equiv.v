@@ -211,6 +211,8 @@ End One.
 
 (* --- Equivalence 2: bin_tree / rose_tree --- *)
 
+Module two.
+
 (*
  * See: https://twitter.com/PTOOP/status/1575238476861153280
  * This is another change in shape as well. I have not finished
@@ -238,30 +240,59 @@ Eval compute in (binRose leaf). (* rose nil *)
 Eval compute in (binRose (node leaf leaf)). (* rose (rose nil :: nil) *)
 Eval compute in (binRose (node (node leaf leaf) leaf)). (* rose (rose (rose nil :: nil) :: nil) *)
 Eval compute in (binRose (node leaf (node leaf leaf))). (* rose (rose nil :: rose nil :: nil) *)
+Eval compute in (binRose (node (node (node leaf leaf) (node leaf leaf)) (node leaf leaf))).
 
+(* Max Fan wrote this function via tactics, here is the simplified term: *)
+Definition roseBinSub (h : rose_tree) (tl : list rose_tree) (roseBin_tl : bin_tree) :=     
+  match h with
+  | rose hl =>
+    list_rect 
+      (fun _ : list rose_tree => _)
+      (leaf, roseBin_tl)
+      (fun (hl_h : rose_tree) (hl_tl : list rose_tree) (roseBin_hl_tl : _) =>
+         (node (fst roseBin_hl_tl) (snd roseBin_hl_tl), roseBin_tl)) 
+      hl
+   end.
+
+Definition roseBin (r: rose_tree) : bin_tree :=
+  match r with
+  | rose l =>
+     list_rec 
+       (fun _ : list rose_tree => bin_tree) 
+       leaf
+       (fun (h : rose_tree) (tl : list rose_tree) (roseBin_tl : bin_tree) => 
+          node (fst (roseBinSub h tl roseBin_tl)) (snd (roseBinSub h tl roseBin_tl)))
+       l
+  end.
+
+Theorem section :
+  forall (b : bin_tree),
+    roseBin (binRose b) = b.
+Proof.
+  induction b; intros; auto. simpl. 
+  destruct (binRose b2) as [l2] eqn:?.
+  destruct (binRose b1) as [l1] eqn:?.
+  remember (roseBinSub (rose l1) l2 b2) as p.
+  destruct p. 
+  assert (b = fst (roseBinSub (rose l1) l2 b2)) by (rewrite <- Heqp; auto).
+  assert (b0 = snd (roseBinSub (rose l1) l2 b2)) by (rewrite <- Heqp; auto).
+  replace (roseBin (rose (rose l1 :: l2))) with (node b b0).
+  - admit. (* IDK *)
+  - simpl. f_equal.
+    + rewrite H. f_equal. simpl. rewrite <- IHb2. simpl. reflexivity.
+    + rewrite H0. f_equal. simpl. rewrite <- IHb2. simpl. reflexivity.
+Abort.
 
 (*
-TODO can't define these ...
-
-Fixpoint enips (l : list rose_tree) : bin_tree :=
-  match l2 with
-  | nil => leaf
-  | cons h tl =>
-    match h with
-    | rose rs => node (enips rs) (enips tl)
-    end
-  end.
-
-Definition roseBin (r : rose_tree) : bin_tree :=
-  match r with
-  | rose rs => enips rs
-  end.
+TODO refolding behavior is hard omg
 *)
 
 (*
 TODO then write section/retraction proofs, which will suck
 
  *)
+
+End two.
 
 (* --- Equivalence 3: No recursion --- *)
 
