@@ -238,12 +238,36 @@ Fixpoint binRose (b : bin_tree) : rose_tree :=
       end
   end.
 
+Section rose_tree_ind'.
+  Variable P : rose_tree -> Prop.
+
+  Hypothesis rose_case : forall (rs : list rose_tree),
+    Forall P rs -> P (rose rs).
+
+  Fixpoint rose_tree_ind' (r : rose_tree) : P r :=
+    match r with
+    | rose rs =>
+      let fars := list_ind (Forall P) (Forall_nil P) (fun r' rs' Hrs' => Forall_cons r' (rose_tree_ind' r') Hrs') rs in
+      rose_case rs fars
+    end.
+End rose_tree_ind'.
+
 Eval compute in (binRose leaf). (* rose nil *)
 Eval compute in (binRose (node leaf leaf)). (* rose (rose nil :: nil) *)
 Eval compute in (binRose (node (node leaf leaf) leaf)). (* rose (rose (rose nil :: nil) :: nil) *)
 Eval compute in (binRose (node leaf (node leaf leaf))). (* rose (rose nil :: rose nil :: nil) *)
 Eval compute in (binRose (node (node (node leaf leaf) (node leaf leaf)) (node leaf leaf))).
 
+Fixpoint roseBin (r: rose_tree) : bin_tree :=
+match r with
+| rose rs =>
+fold_right (fun r' bt => node (roseBin r') bt) leaf rs
+end.
+
+
+Eval compute in (roseBin (binRose (node (node leaf leaf) (node leaf leaf)))).
+
+(*
 (* Max Fan wrote this function via tactics, here is the simplified term: *)
 Definition roseBinSub (h : rose_tree) (tl : list rose_tree) (roseBin_tl : bin_tree) :=     
   match h with
@@ -252,7 +276,9 @@ Definition roseBinSub (h : rose_tree) (tl : list rose_tree) (roseBin_tl : bin_tr
       (fun _ : list rose_tree => _)
       (leaf, roseBin_tl)
       (fun (hl_h : rose_tree) (hl_tl : list rose_tree) (roseBin_hl_tl : _) =>
-         (node (fst roseBin_hl_tl) (snd roseBin_hl_tl), roseBin_tl)) 
+         (* (node (fst roseBin_hl_tl) (snd roseBin_hl_tl), roseBin_tl)) *)
+
+         (node (fst roseBin_hl_tl) roseBin_tl, (snd roseBin_hl_tl))) 
       hl
    end.
 
@@ -267,24 +293,73 @@ Definition roseBin (r: rose_tree) : bin_tree :=
        l
   end.
 
-(* TODO currently false *)
+*)
+
+Eval compute in (roseBin (binRose (node (node leaf leaf) (node leaf leaf)))).
+
+(*
+Example wrong:
+  (roseBin (binRose (node (node leaf leaf) (node leaf leaf)))) 
+    = node (node leaf (node leaf leaf)) (node leaf leaf).
+Proof.
+reflexivity.
+Qed.
+
+*)
+
+Lemma roseBin_cons :
+  forall (r : rose_tree) (rs : list rose_tree),
+    roseBin (rose (r::rs)) = node (roseBin r) (roseBin (rose rs)).
+Proof.
+  reflexivity.
+Qed.
+
+Theorem section' :
+  forall (b : bin_tree) (rs : list rose_tree),
+    roseBin (rose (binRose b::rs)) = node b (roseBin (rose rs)).
+Proof.
+induction b; intros; auto.
+- simpl roseBin.
+  f_equal.
+  destruct (binRose b2) eqn:?.
+  destruct (binRose b1) eqn:?.
+  rewrite IHb1.
+  f_equal.
+  enough (roseBin (rose (rose l::nil)) = node b2 leaf).
+  + inversion H.
+    simpl.
+    reflexivity.
+  + apply IHb2.
+Qed.
+
 Theorem section :
   forall (b : bin_tree),
     roseBin (binRose b) = b.
 Proof.
-  induction b; intros; auto. simpl. 
-  destruct (binRose b2) as [l2] eqn:?.
-  destruct (binRose b1) as [l1] eqn:?.
-  remember (roseBinSub (rose l1) l2 b2) as p.
-  destruct p. 
-  assert (b = fst (roseBinSub (rose l1) l2 b2)) by (rewrite <- Heqp; auto).
-  assert (b0 = snd (roseBinSub (rose l1) l2 b2)) by (rewrite <- Heqp; auto).
-  replace (roseBin (rose (rose l1 :: l2))) with (node b b0).
-  - admit. (* IDK *)
-  - simpl. f_equal.
-    + rewrite H. f_equal. simpl. rewrite <- IHb2. simpl. reflexivity.
-    + rewrite H0. f_equal. simpl. rewrite <- IHb2. simpl. reflexivity.
-Abort.
+induction b; auto; intros; simpl.
+- destruct (binRose b2).
+  simpl.
+  rewrite IHb1.
+  f_equal.
+  rewrite <- IHb2.
+  reflexivity.
+Qed.
+
+Theorem retraction :
+  forall (r : rose_tree),
+    binRose (roseBin r) = r.
+Proof.
+fix H 1.
+destruct r.
+induction l.
+- reflexivity.
+- simpl.
+  simpl in IHl.
+  rewrite IHl.
+  simpl.
+  rewrite (H a).
+  reflexivity.
+Qed.
 
 (*
 TODO refolding behavior is hard omg
