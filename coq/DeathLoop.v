@@ -133,7 +133,11 @@ Abort.
    One thing that seems relevant to me is the fact that l "becomes" a :: l
    or similarly a :: l0 in the inductive case. But I can't get much more
    crisp than that. And I think figuring this out is important for building good
-   machine learning tools for proofs. *)
+   machine learning tools for proofs.
+
+   Another thing that seems relevant to me is the relationship to proof
+   checking in proof systems that have cyclic induction. Likely some
+   reduction can be made to that, but I don't know for sure. *)
 
 (* Hopefully I'll add more examples of these later!
    Including more interesting ones, as they come up.
