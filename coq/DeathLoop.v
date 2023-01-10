@@ -128,7 +128,12 @@ Abort.
 
    As a human, I get a sense of "deja vu," like I realize I'm
    doing the same thing over and over again, and I stop.
-   But I don't know how it is I get the sense that I'm repeating myself! *)
+   But I don't know how it is I get the sense that I'm repeating myself!
+
+   One thing that seems relevant to me is the fact that l "becomes" a :: l
+   or similarly a :: l0 in the inductive case. But I can't get much more
+   crisp than that. And I think figuring this out is important for building good
+   machine learning tools for proofs. *)
 
 (* Hopefully I'll add more examples of these later!
    Including more interesting ones, as they come up.
